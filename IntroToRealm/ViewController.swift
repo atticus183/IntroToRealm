@@ -19,16 +19,27 @@ class ViewController: UIViewController {
         
         print(realm.configuration.fileURL ?? "Realm URL not found.")
         
-        //Uncomment if you delete the app from the simulator
-        //Comment methods out of objects already exist in the realm
+        //MARK: Create test data
+        //Uncomment if you delete the app from the simulator and need to recreate test data
+        //Comment methods out if objects already exist in the realm
 //        createCustomersAndBranchManager()
 //        createBank()
         
+        //MARK: Retrieve all customers, branch manager, and bank
         let allCustomers = realm.objects(Customer.self)
         let branchManager = realm.objects(BranchManager.self).first!
         let usBank = realm.objects(Bank.self).first!
         
-        //Uncomment if you delete the app from the simulator
+        
+        //MARK: Change an objects value
+        try! realm.write {
+            branchManager.lastName = "Miller"
+        }
+        
+        print("Lauren's new last name is \(branchManager.lastName)")
+        
+        //MARK: Add relationships
+        //Uncomment if you delete the app from the simulator and need to reestablish the relationships
 //        try! realm.write {
 //            usBank.branchManager = branchManager
 //
@@ -38,7 +49,7 @@ class ViewController: UIViewController {
 //        }
         
         let jonCustomer = allCustomers.filter({ $0.firstName == "Jon" })
-        print(jonCustomer.first?.fullName)
+        print(jonCustomer.first!.fullName)
     }
     
     private func createCustomersAndBranchManager() {
@@ -54,7 +65,7 @@ class ViewController: UIViewController {
             customer2.currentBalance = 54321.10
             
             let branchManager = BranchManager()
-            branchManager.firstName = "Ricky"
+            branchManager.firstName = "Lauren"
             branchManager.lastName = "Scott"
             
             realm.add([customer1, customer2, branchManager])
