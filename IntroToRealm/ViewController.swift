@@ -48,6 +48,12 @@ class ViewController: UIViewController {
 //            }
 //        }
         
+        //MARK: Retrieving the customer's bank from the Customer class
+        let firstCustomersBank  = allCustomers.first!.bank.first!
+        print("The first customer's bank is: \(firstCustomersBank.name)")
+        
+        
+        //MARK: Filtering allCustomers to find all customers where their first name is Jon
         let jonCustomer = allCustomers.filter({ $0.firstName == "Jon" })
         print(jonCustomer.first!.fullName)
     }
